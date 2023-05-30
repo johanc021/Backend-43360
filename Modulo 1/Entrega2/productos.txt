@@ -1,0 +1,1 @@
+[{"id":1,"title":"Producto 1 Mod","description":"Descripcion Producto1 Mod","price":25,"thumbnail":"https://url-del-thumbnail-1-modificado","code":"A9374","stock":12},{"id":"A65871","title":"Producto 3","description":"Descripción del producto 3","price":30,"thumbnail":"https://url-del-thumbnail-3","code":"A3214","stock":15}]

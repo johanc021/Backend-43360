@@ -62,6 +62,6 @@ console.log(product);
 
 // Intentando obtener un producto que no existe
 const productNotFound = manager.getProductById('A6333');
-console.log(productNotFound)
+/* console.log(productNotFound) */
 
 
