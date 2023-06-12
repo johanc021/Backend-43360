@@ -1,11 +1,9 @@
 import { Router } from 'express'
 import { ProductManager } from '../src/ProductManager.js'
-import { ShoppingCart } from '../src/ShoppingCart.js';
 
 const router = Router();
 
 const manager = new ProductManager('./products.json');
-const shoppingCart = new ShoppingCart('./productsToCart.json')
 
 // Ruta para obtener todos los productos
 // http://localhost:8090/api/products
@@ -140,26 +138,6 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el producto' });
     }
 });
-
-//Agregando Producto en el carrito
-/* router.post('/:productId', async (req, res) => {
-    const productId = req.params.productId;
-    const cantidad = req.body.cantidad
-
-    try {
-        const product = await manager.getProductById(+productId);
-
-        if (!product) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-
-        shoppingCart.addProductToCart(cantidad, product);
-        res.status(200).json({ message: 'Producto agregado al carrito correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al agregar el producto al carrito' });
-    }
-}); */
-
 
 // Exportacion
 export default router;
