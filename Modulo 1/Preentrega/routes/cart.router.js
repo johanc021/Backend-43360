@@ -5,8 +5,8 @@ import { ProductManager } from '../src/ProductManager.js';
 
 const router = Router();
 
-const shoppingCart = new ShoppingCart('./productsToCart.json');
-const manager = new ProductManager('./products')
+const shoppingCart = new ShoppingCart('./cart.json');
+const manager = new ProductManager('./products.json')
 
 
 // Ruta para ver los productos en el carrito
@@ -16,31 +16,53 @@ router.get('/', (req, res) => {
 });
 
 
-// Ruta para agregar un producto al carrito
-router.post('/:productId', async (req, res) => {
-    const productId = req.params.productId;
-    const cantidad = req.body.cantidad;
-    console.log(productId)
-    console.log(cantidad)
-    try {
-        // Obtener el producto del ProductManager o cualquier otra fuente
-        const product = await manager.getProductById(+productId);
+// Ruta para crear un nuevo carrito
+router.post('/', (req, res) => {
+    // Generar un ID único para el carrito
+    shoppingCart.createCart();
 
-        if (!product) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-
-        // Agregar el producto al carrito
-        shoppingCart.addProductToCart(cantidad, product);
-        res.status(200).json({ message: 'Producto agregado al carrito correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al agregar el producto al carrito' });
-    }
+    res.status(200).json({ message: 'Carrito creado.' });
 });
 
 
+// ruta para Consultar Carrito por ID
+router.get('/:cid', async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    /* console.log("ID del carrito en los parámetros: " + cartId); */
 
+    try {
+        const cartProducts = await shoppingCart.getProductsInCartById(cartId);
+        /* console.log(cartProducts); */
 
+        if (cartProducts) {
+            res.json(cartProducts);
+        } else {
+            res.status(404).json({ error: 'El carrito no existe o no contiene productos.' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener los productos del carrito.' });
+    }
+});
+
+//ruta para agregar producto en carrito
+router.post('/:cid/product/:pid', (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    const productId = parseInt(req.params.pid);
+
+    const product = manager.getProductById(productId);
+
+    if (product) {
+        const isAdded = shoppingCart.addProductToCart(cartId, product);
+
+        if (isAdded) {
+            res.json({ message: 'Producto agregado correctamente.' });
+        } else {
+            res.json({ message: 'El producto ya existe en el carrito.' });
+        }
+    } else {
+        res.status(404).json({ error: 'El producto no existe.' });
+    }
+});
 
 export default router;
 

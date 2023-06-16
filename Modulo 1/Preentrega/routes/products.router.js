@@ -20,6 +20,7 @@ router.get('/', async (req, res) => {
 
 // Ruta para crear un nuevo producto
 router.post('/', async (req, res) => {
+
     const {
         title,
         description,
@@ -32,11 +33,11 @@ router.post('/', async (req, res) => {
     } = req.body;
 
     // Verificar que se proporcionen todos los valores obligatorios
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
+    /* if (!title || !description || !code || !price || status || !stock || !category || !thumbnail) {
         return res
             .status(400)
             .json({ error: 'Debes proporcionar todos los valores obligatorios' });
-    }
+    } */
 
     // Crear el nuevo producto
     const newProduct = {

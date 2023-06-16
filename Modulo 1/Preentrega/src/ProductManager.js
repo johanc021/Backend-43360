@@ -68,11 +68,11 @@ export class ProductManager {
     }
 
     // obtener un producto por su id
-    async getProductById(id) {
-
+    /* async getProductById(id) {
+        //console.log(id)
         try {
             // leer el archivo
-            const data = await fs.readFileSync(this.path, 'utf-8');
+            const data = await fs.readFile(this.path, 'utf-8');
             // parsear los datos como un array de objetos
             const products = JSON.parse(data);
             // buscar el producto por su código
@@ -82,10 +82,22 @@ export class ProductManager {
             }
 
         } catch {
-            console.log(`Producto con código ${id} no encontrado.`);
+            console.log(`Producto con id ${id} no encontrado.`);
             return null;
         }
 
+    } */
+
+    getProductById(productId) {
+        /* console.log(productId) */
+        // Leer el contenido actual del archivo JSON
+        const data = fs.readFileSync(this.path, 'utf-8');
+        const products = JSON.parse(data);
+
+        // Buscar el producto por ID
+        const product = products.find(p => p.id === productId);
+
+        return product;
     }
 
     //Actualizar un producto
